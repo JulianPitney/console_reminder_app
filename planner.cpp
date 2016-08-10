@@ -87,8 +87,11 @@ struct day_node
 class LLCalender
 {
 public:
-	int appendNode(day_node *input_node);
+	int number_of_nodes = 0;
+
+
 	int removeNode(int node_position);	
+	int addNode (int node_position, day_node *input_node);
 	day_node* LLHandle = NULL; // start of list
 	day_node* last_node = NULL; // end of list
 private:
@@ -100,19 +103,41 @@ private:
 };
 
 
-int LLCalender::appendNode(day_node *input_node)
+// Node position starts at 0 for the handle. Function will
+// at node directly at this position, bumping all other nodes forward by 1.
+int LLCalender::addNode (int node_position, day_node *input_node)
 {
-	if (this->LLHandle == NULL)
+	if (node_position == 0 && this->LLHandle == NULL) // Case: LL is empty
 	{
 		LLHandle = input_node;
 		last_node = input_node;
+		this->number_of_nodes++;
 		return 0;
 	}
+	else if (node_position == this->number_of_nodes) // Case: Appending to end of list
+	{
+		this->last_node->next = input_node;
+		input_node->previous = this->last_node;
+		this->last_node = input_node;
+		this->number_of_nodes++;
+		return 0;
+	}
+	else // Case: Adding node to occupied position within list and list is non-empty
+	{
+		day_node* temp_node = this->LLHandle;
 
-	this->last_node->next = input_node;
-	input_node->previous = this->last_node;
-	this->last_node = input_node;
-	return 0;
+		for (unsigned int i = 0; i < node_position; i++) 
+		{
+			temp_node = temp_node->next;
+		}	
+
+		input_node->previous = temp_node->previous;
+		input_node->next = temp_node;
+		temp_node->previous->next = input_node;
+		temp_node->previous = input_node;
+		this->number_of_nodes++;
+		return 0;	
+	}
 }
 
 int LLCalender::removeNode(int node_position)
@@ -133,13 +158,17 @@ int main(int argc, char *argv[])
 	day_node *day1 = new day_node();
 	day_node *day2 = new day_node();
 	day_node *day3 = new day_node();
+	day_node *day4 = new day_node();
 
 	LLCalender *calender1 = new LLCalender();
 
-	calender1->appendNode(day1);
-	calender1->appendNode(day2);
-	calender1->appendNode(day3);
+	calender1->addNode(0,day1);
+	calender1->addNode(1,day2);
+	calender1->addNode(2,day3);
+	calender1->addNode(1, day4);
 
+
+	
 	return 0;
 }
 
