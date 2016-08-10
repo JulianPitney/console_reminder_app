@@ -142,7 +142,58 @@ int LLCalender::addNode (int node_position, day_node *input_node)
 
 int LLCalender::removeNode(int node_position)
 {
-	return 0;
+	if (this->LLHandle == NULL && this->number_of_nodes == 0) // Case1: List already empty
+	{
+		cout << "Error: Tried to remove node from empty linked list\n";
+	}
+	else if (this->LLHandle->next == NULL && node_position == 0) // Case2: Removing only node in list
+	{
+		delete this->LLHandle;
+		this->LLHandle = NULL;
+		this->last_node = NULL;
+		this->number_of_nodes--;
+		cout << "Removed node " << node_position << " from list\n";
+		return 0;
+	}
+	else // Case3: Removing node with >2 elements
+	{
+		day_node *temp_node = this->LLHandle;
+
+		for (unsigned int i = 0; i < node_position; i++)
+		{
+			temp_node = temp_node->next;
+		}
+
+
+		if (this->number_of_nodes == node_position + 1) // Case3a: Removing end of list 
+		{
+			temp_node->previous->next = NULL;
+			this->last_node = temp_node->previous;
+			delete temp_node;
+			this->number_of_nodes--;
+			cout << "Removed node " << node_position << " from list\n";
+			return 0;
+		}
+		else if (node_position == 0) // Case3b: Removing start of list
+		{
+			temp_node->next->previous = NULL;
+			this->LLHandle = temp_node->next;
+			delete temp_node;
+			this->number_of_nodes--;
+			cout << "Removed node " << node_position << " from list\n";
+			return 0;
+		}
+		else // Case3c: Removing somewhere between start and end of list
+		{
+			temp_node->previous->next = temp_node->next;
+			temp_node->next->previous = temp_node->previous;
+			delete temp_node;
+			this->number_of_nodes--;
+			cout << "Removed node " << node_position << " from list\n";
+			return 0;
+		}
+	}
+	
 }
 
 
@@ -162,11 +213,22 @@ int main(int argc, char *argv[])
 
 	LLCalender *calender1 = new LLCalender();
 
+	
 	calender1->addNode(0,day1);
 	calender1->addNode(1,day2);
 	calender1->addNode(2,day3);
-	calender1->addNode(1, day4);
+	calender1->addNode(3,day4);
 
+
+	cout << calender1->LLHandle << endl;
+	cout << day2->previous << endl;
+
+	calender1->removeNode(0);
+
+	cout << calender1->LLHandle << endl;
+	cout << day2 << endl;
+
+	cout << day2->previous << endl;
 
 	
 	return 0;
