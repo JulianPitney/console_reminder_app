@@ -88,12 +88,12 @@ class LLCalender
 {
 public:
 	int number_of_nodes = 0;
-
+	day_node* LLHandle = NULL; // start of list
+	day_node* last_node = NULL; // end of list
 
 	int removeNode(int node_position);	
 	int addNode (int node_position, day_node *input_node);
-	day_node* LLHandle = NULL; // start of list
-	day_node* last_node = NULL; // end of list
+	void printList();
 private:
 
 
@@ -102,6 +102,19 @@ private:
 
 };
 
+// Prints list. Add contents you want printed + format later.
+void LLCalender::printList()
+{
+	day_node *temp_node = this->LLHandle;
+
+	while (temp_node->next != NULL)
+	{
+		cout << temp_node << endl;
+		temp_node = temp_node->next;
+	}
+
+	cout << temp_node << endl;
+}
 
 // Node position starts at 0 for the handle. Function will
 // at node directly at this position, bumping all other nodes forward by 1.
@@ -220,16 +233,7 @@ int main(int argc, char *argv[])
 	calender1->addNode(3,day4);
 
 
-	cout << calender1->LLHandle << endl;
-	cout << day2->previous << endl;
-
-	calender1->removeNode(0);
-
-	cout << calender1->LLHandle << endl;
-	cout << day2 << endl;
-
-	cout << day2->previous << endl;
-
+	calender1->printList();
 	
 	return 0;
 }
