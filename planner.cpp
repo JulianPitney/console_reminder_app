@@ -15,6 +15,16 @@ struct tm* getCurrentTime() {
 	return now;
 }
 
+void printTime(struct tm *inputTime)
+{
+	cout << (inputTime->tm_year + 1900) << '-'
+		<< (inputTime->tm_mon + 1) << '-'
+		<< (inputTime->tm_mday) << endl;
+	cout << (inputTime->tm_hour) << ':'
+		<< (inputTime->tm_min) << ':'
+		<< (inputTime->tm_sec) << "\n\n";
+}
+
 
 /***************************************/
 
@@ -91,6 +101,8 @@ public:
 	int addNode (unsigned int node_position, day_node *input_node);
 	int appendToday();
 
+	void createNote_InDayNode(int nodePos);
+	day_node* getDayNode(unsigned int nodePos);
 	void printList();
 
 private:
@@ -101,19 +113,6 @@ private:
 
 };
 
-// Prints list. Add contents you want printed + format later.
-void LLCalender::printList()
-{
-	day_node *temp_node = this->LLHandle;
-
-	while (temp_node->next != NULL)
-	{
-		cout << temp_node << endl;
-		temp_node = temp_node->next;
-	}
-
-	cout << temp_node << endl;
-}
 
 // Node position starts at 0 for the handle. Function will
 // at node directly at this position, bumping all other nodes forward by 1.
@@ -239,6 +238,57 @@ int LLCalender::appendToday()
 	return 0;
 }
 
+// Prints list. Add contents you want printed + format later.
+void LLCalender::printList()
+{
+	day_node *temp_node = this->LLHandle;
+
+	while (temp_node->next != NULL)
+	{
+		cout << temp_node << endl;
+		temp_node = temp_node->next;
+	}
+
+	cout << temp_node << endl;
+}
+
+// Returns pointer to day_node at position nodePos in list. Returns NULL if error.
+day_node* LLCalender::getDayNode(unsigned int nodePos)
+{
+	if (nodePos > this->number_of_nodes || nodePos < 0)
+	{
+		cout << "Error: getDayNode() tried to access node at invalid position in list ( <0 or past end of list)\n";
+		return NULL;
+	}
+	else if (this->LLHandle == NULL)
+	{
+		cout << "Error: getDayNode() tried to access empty list \n";
+		return NULL;
+	}
+
+	day_node* outputNode = this->LLHandle;
+	for (unsigned int i = 0; i < nodePos; i++)
+	{
+		outputNode = outputNode->next;
+	}
+
+	return outputNode;
+}
+
+// Creates note inside day_node returned by getDayNode()
+void LLCalender::createNote_InDayNode(int nodePos)
+{
+	day_node *temp = this->getDayNode(nodePos);
+	if (temp != NULL)
+	{
+		temp->noteList.push_back(Note());
+	}
+	else
+	{
+		cout << "Error: createNote_InDayNote() tried to create note inside NULL day_node ptr\n";
+	}
+	
+}
 
 // END OF LINKED LIST CODE
 
@@ -248,8 +298,13 @@ int main(int argc, char *argv[])
 {
 	
 	LLCalender *calender = new LLCalender();
+	calender->createNote_InDayNode(-1);
 
 	calender->appendToday();
+	calender->createNote_InDayNode(0);
+	calender->createNote_InDayNode(1);
+
+	
 
 
 
