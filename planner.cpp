@@ -7,82 +7,78 @@
 using namespace std;
 
 
-// create and fill tm struct with current system time
-struct tm* get_current_time(){
+struct tm* getCurrentTime() {
 
-time_t t = time(0);
-struct tm *now = localtime(&t);
-return now;
-
-}
-
-// START 0F NOTE CODE
-
-
-// Print time contained in supplied tm struct
-void print_time(struct tm* input_time){
-	
-cout << (input_time->tm_year + 1900) << '-'
-	<< (input_time->tm_mon + 1) << '-'
-	<< (input_time->tm_mday) << endl;
-cout << (input_time->tm_hour) << ':'
-	<< (input_time->tm_min) << ':'
-	<< (input_time->tm_sec) << endl;
+	time_t t = time(0);
+	struct tm *now = new struct tm;
+	localtime_s(now, &t);
+	return now;
 }
 
 
-// Get note from user CL input
-string takeNote(){
-
-string note;
-
-cout << "Inpute reminder: ";
-getline(cin,note);
-return note;
-
-}
+/***************************************/
 
 
-
-// Struct to contain notes and meta information
-struct note_pkg
+class Note
 {
+public:
+
 	string note;
-	struct tm *creation_time;
+	struct tm *noteInitTime;
+
+	Note();
+	string getUserNote();
+	void printNote();
+
+private:
 };
 
 
-// Create and fill note_pkg struct
-note_pkg* make_note()
+Note::Note()
 {
-	note_pkg *pkg = new note_pkg();
-	pkg->note = takeNote();
-	pkg->creation_time = get_current_time();
+	note = this->getUserNote();
+	noteInitTime = getCurrentTime();
+}
+
+string Note::getUserNote()
+{
+	string note;
+
+	cout << "Inpute reminder: ";
+	getline(cin, note);
+	return note;
+}
+
+// Print time contained in supplied tm struct
+void Note::printNote(){
 	
-	return pkg;
+	cout << (noteInitTime->tm_year + 1900) << '-'
+		 << (noteInitTime->tm_mon + 1) << '-'
+		 << (noteInitTime->tm_mday) << endl;
+	cout << (noteInitTime->tm_hour) << ':'
+		 << (noteInitTime->tm_min) << ':'
+		 << (noteInitTime->tm_sec) << "\n\n";
+
+	cout << note << endl;
+
 }
 
-// EDIT THE FORMAT OF THIS TO LIKING LATER
-// Print contents of note_pkg struct
-void printNote(note_pkg* input_note)
-{
-	cout << input_note->note << endl;
-	print_time(input_note->creation_time);	
-}
 
-// END OF NOTE CODE
 
-// START OF LINKED LIST CODE
+
+
+
+
+
 
 
 struct day_node
 {
 	day_node* next = NULL;
 	day_node* previous = NULL;
-	struct tm *day = get_current_time();	
+	struct tm *dayInitTime = getCurrentTime();
+	vector<Note> noteList;
 };
-
-
 
 class LLCalender
 {
@@ -91,9 +87,12 @@ public:
 	day_node* LLHandle = NULL; // start of list
 	day_node* last_node = NULL; // end of list
 
-	int removeNode(int node_position);	
-	int addNode (int node_position, day_node *input_node);
+	int removeNode(unsigned int node_position);	
+	int addNode (unsigned int node_position, day_node *input_node);
+	int appendToday();
+
 	void printList();
+
 private:
 
 
@@ -118,8 +117,14 @@ void LLCalender::printList()
 
 // Node position starts at 0 for the handle. Function will
 // at node directly at this position, bumping all other nodes forward by 1.
-int LLCalender::addNode (int node_position, day_node *input_node)
+int LLCalender::addNode (unsigned int node_position, day_node *input_node)
 {
+	if (node_position > this->number_of_nodes || node_position < 0)
+	{
+		cout << "Error: addNode() tried to add node to invalid position in list ( <0 or >2 past end of list)\n";
+		return -1;
+	}
+
 	if (node_position == 0 && this->LLHandle == NULL) // Case: LL is empty
 	{
 		LLHandle = input_node;
@@ -153,8 +158,14 @@ int LLCalender::addNode (int node_position, day_node *input_node)
 	}
 }
 
-int LLCalender::removeNode(int node_position)
+int LLCalender::removeNode(unsigned int node_position)
 {
+	if (node_position > this->number_of_nodes || node_position < 0)
+	{
+		cout << "Error: removeNode() tried to add node to invalid position in list ( <0 or >2 past end of list)\n";
+		return -1;
+	}
+
 	if (this->LLHandle == NULL && this->number_of_nodes == 0) // Case1: List already empty
 	{
 		cout << "Error: Tried to remove node from empty linked list\n";
@@ -209,6 +220,25 @@ int LLCalender::removeNode(int node_position)
 	
 }
 
+// Creates a node for current day and appends it to list
+int LLCalender::appendToday()
+{
+	day_node *today = new day_node();
+
+	if (this->LLHandle == NULL) // Case: no nodes in list
+	{
+		this->LLHandle = today;
+		this->last_node = today;
+		return 0;
+	}
+
+	this->last_node->next = today; // Case: appending to end of non-empty list
+	today->previous = this->last_node;
+	this->last_node = today;
+	this->number_of_nodes++; 
+	return 0;
+}
+
 
 // END OF LINKED LIST CODE
 
@@ -216,24 +246,16 @@ int LLCalender::removeNode(int node_position)
 
 int main(int argc, char *argv[])
 {
-	note_pkg *note1 = make_note();	
-	printNote(note1);
+	
+	LLCalender *calender = new LLCalender();
 
-	day_node *day1 = new day_node();
-	day_node *day2 = new day_node();
-	day_node *day3 = new day_node();
-	day_node *day4 = new day_node();
+	calender->appendToday();
 
-	LLCalender *calender1 = new LLCalender();
+
 
 	
-	calender1->addNode(0,day1);
-	calender1->addNode(1,day2);
-	calender1->addNode(2,day3);
-	calender1->addNode(3,day4);
 
 
-	calender1->printList();
 	
 	return 0;
 }
