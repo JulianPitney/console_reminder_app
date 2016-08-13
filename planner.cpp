@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <console_calender.h>
 
 using namespace std;
 
@@ -332,43 +333,44 @@ void LLCalender::printDayNode(unsigned int nodePos)
 int main(int argc, char *argv[])
 {
 	
-	LLCalender *calender = new LLCalender();
+	LLCalender *LLHandle = new LLCalender();
 	
-	calender->addNode(0);
-	calender->addNode(1);
-	calender->addNode(2);
-	calender->addNode(3);
-	calender->addNode(4);
-	calender->addNode(5);
-	calender->addNode(6);
-	calender->addNode(7);
-	calender->addNode(8);
-	calender->appendToday();
+	LLHandle->addNode(0);
+	LLHandle->addNode(1);
+	LLHandle->addNode(2);
+	LLHandle->addNode(3);
+	LLHandle->addNode(4);
+	LLHandle->addNode(5);
+	LLHandle->addNode(6);
+	LLHandle->addNode(7);
+	LLHandle->addNode(8);
+	LLHandle->appendToday();
 
-	calender->createNote_InDayNode(0);
-	calender->createNote_InDayNode(2);
-	calender->createNote_InDayNode(4);
-	calender->createNote_InDayNode(6);
-	calender->createNote_InDayNode(8);
-	calender->createNote_InDayNode(9);
-	calender->createNote_InDayNode(1);
+	LLHandle->createNote_InDayNode(0);
+	LLHandle->createNote_InDayNode(2);
+	LLHandle->createNote_InDayNode(4);
+	LLHandle->createNote_InDayNode(6);
+	LLHandle->createNote_InDayNode(8);
+	LLHandle->createNote_InDayNode(9);
+	LLHandle->createNote_InDayNode(1);
 
-	calender->createNote_InDayNode(0);
-	calender->createNote_InDayNode(0);
-	calender->createNote_InDayNode(0);
+	LLHandle->createNote_InDayNode(0);
+	LLHandle->createNote_InDayNode(0);
+	LLHandle->createNote_InDayNode(0);
 
-	calender->createNote_InDayNode(9);
-	calender->createNote_InDayNode(9);
-	calender->createNote_InDayNode(9);
-
-
-	
-	calender->printDayNode(0);
-	calender->printDayNode(9);
-	calender->printDayNode(4);
+	LLHandle->createNote_InDayNode(9);
+	LLHandle->createNote_InDayNode(9);
+	LLHandle->createNote_InDayNode(9);
 
 
 	
+	LLHandle->printDayNode(0);
+	LLHandle->printDayNode(9);
+	LLHandle->printDayNode(4);
+
+
+	console_calender *calender = new console_calender();
+	day ****year_array = calender->Create_Year(2016);
 
 	
 	
