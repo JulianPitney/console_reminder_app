@@ -98,11 +98,13 @@ public:
 	day_node* last_node = NULL; // end of list
 
 	int removeNode(unsigned int node_position);	
-	int addNode (unsigned int node_position, day_node *input_node);
+	int addNode (unsigned int node_position);
 	int appendToday();
 
-	void createNote_InDayNode(int nodePos);
+	void createNote_InDayNode(unsigned int nodePos);
+	Note* getNote_FromDayNode(unsigned int nodePos, unsigned int noteNum);
 	day_node* getDayNode(unsigned int nodePos);
+	void printDayNode(unsigned int nodePos);
 	void printList();
 
 private:
@@ -116,7 +118,7 @@ private:
 
 // Node position starts at 0 for the handle. Function will
 // at node directly at this position, bumping all other nodes forward by 1.
-int LLCalender::addNode (unsigned int node_position, day_node *input_node)
+int LLCalender::addNode (unsigned int node_position)
 {
 	if (node_position > this->number_of_nodes || node_position < 0)
 	{
@@ -124,18 +126,20 @@ int LLCalender::addNode (unsigned int node_position, day_node *input_node)
 		return -1;
 	}
 
+	day_node *new_node = new day_node;
+
 	if (node_position == 0 && this->LLHandle == NULL) // Case: LL is empty
 	{
-		LLHandle = input_node;
-		last_node = input_node;
+		LLHandle = new_node;
+		last_node = new_node;
 		this->number_of_nodes++;
 		return 0;
 	}
 	else if (node_position == this->number_of_nodes) // Case: Appending to end of list
 	{
-		this->last_node->next = input_node;
-		input_node->previous = this->last_node;
-		this->last_node = input_node;
+		this->last_node->next = new_node;
+		new_node->previous = this->last_node;
+		this->last_node = new_node;
 		this->number_of_nodes++;
 		return 0;
 	}
@@ -148,10 +152,10 @@ int LLCalender::addNode (unsigned int node_position, day_node *input_node)
 			temp_node = temp_node->next;
 		}	
 
-		input_node->previous = temp_node->previous;
-		input_node->next = temp_node;
-		temp_node->previous->next = input_node;
-		temp_node->previous = input_node;
+		new_node->previous = temp_node->previous;
+		new_node->next = temp_node;
+		temp_node->previous->next = new_node;
+		temp_node->previous = new_node;
 		this->number_of_nodes++;
 		return 0;	
 	}
@@ -276,7 +280,7 @@ day_node* LLCalender::getDayNode(unsigned int nodePos)
 }
 
 // Creates note inside day_node returned by getDayNode()
-void LLCalender::createNote_InDayNode(int nodePos)
+void LLCalender::createNote_InDayNode(unsigned int nodePos)
 {
 	day_node *temp = this->getDayNode(nodePos);
 	if (temp != NULL)
@@ -290,6 +294,37 @@ void LLCalender::createNote_InDayNode(int nodePos)
 	
 }
 
+// Returns Note object from specified day_node in list. Returns NULL on failure.
+Note* LLCalender::getNote_FromDayNode(unsigned int nodePos, unsigned int noteIndex)
+{
+	if (noteIndex < 0 || noteIndex >= this->number_of_nodes)
+	{
+		cout << "Error: getNote_FromDayNode() tried to access note outside bounds of vector\n";
+		return NULL;
+	}
+
+	day_node *temp = this->getDayNode(nodePos);
+	if (temp == NULL)
+	{
+		cout << "Error: getNote_FromDayNode() detected NULL pointer returned from getDayNode()\n";
+		return NULL;
+	}
+	else
+	{
+		return &temp->noteList.at(noteIndex);
+	}
+}
+
+void LLCalender::printDayNode(unsigned int nodePos)
+{
+	day_node *node_to_print = this->getDayNode(nodePos);
+
+	for (unsigned int i = 0; i < node_to_print->noteList.size(); i++)
+	{
+		node_to_print->noteList.at(i).printNote();
+	}
+}
+
 // END OF LINKED LIST CODE
 
 
@@ -298,11 +333,45 @@ int main(int argc, char *argv[])
 {
 	
 	LLCalender *calender = new LLCalender();
-	calender->createNote_InDayNode(-1);
-
+	
+	calender->addNode(0);
+	calender->addNode(1);
+	calender->addNode(2);
+	calender->addNode(3);
+	calender->addNode(4);
+	calender->addNode(5);
+	calender->addNode(6);
+	calender->addNode(7);
+	calender->addNode(8);
 	calender->appendToday();
+
 	calender->createNote_InDayNode(0);
+	calender->createNote_InDayNode(2);
+	calender->createNote_InDayNode(4);
+	calender->createNote_InDayNode(6);
+	calender->createNote_InDayNode(8);
+	calender->createNote_InDayNode(9);
 	calender->createNote_InDayNode(1);
+
+	calender->createNote_InDayNode(0);
+	calender->createNote_InDayNode(0);
+	calender->createNote_InDayNode(0);
+
+	calender->createNote_InDayNode(9);
+	calender->createNote_InDayNode(9);
+	calender->createNote_InDayNode(9);
+
+
+	
+	calender->printDayNode(0);
+	calender->printDayNode(9);
+	calender->printDayNode(4);
+
+
+	
+
+	
+	
 
 	
 
