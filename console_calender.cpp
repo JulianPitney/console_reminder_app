@@ -1,34 +1,5 @@
 #include "console_calender.h"
 
-
-// Function that fills the MonthName,MonthLength and DayName arrays with their appropriate values for later use.
-void console_calender::SetCalender(string* DayInput, string* MonthNames, int* MonthLengths)
-{
-    DayInput[0] = " S";
-    DayInput[1] = " M";
-    DayInput[2] = "Tu";
-    DayInput[3] = " W";
-    DayInput[4] = "Th";
-    DayInput[5] = " F";
-    DayInput[6] = "Sa";
-
-    MonthNames[0] = "January"; MonthLengths[0] = 31;
-    MonthNames[1] = "February"; MonthLengths[1] = 28;
-    MonthNames[2] = "March"; MonthLengths[2] = 31;
-    MonthNames[3] = "April"; MonthLengths[3] = 30;
-    MonthNames[4] = "May"; MonthLengths[4] = 31;
-    MonthNames[5] = "June"; MonthLengths[5] = 30;
-    MonthNames[6] = "July"; MonthLengths[6] = 31;
-    MonthNames[7] = "August"; MonthLengths[7] = 31;
-    MonthNames[8] = "September"; MonthLengths[8] = 30;
-    MonthNames[9] = "October"; MonthLengths[9] = 31;
-    MonthNames[10] = "November"; MonthLengths[10] = 30;
-    MonthNames[11] = "December"; MonthLengths[11] = 31;
-
-
-
-}
-
 // Function that returns true if the input is a leap year.
 bool console_calender::CheckForLeap(int Year)
 {
@@ -68,23 +39,15 @@ void console_calender::ZeroCalender(int **CalenderInput)
 
 // Function for printing month. Takes in all the necessary pointers to arrays storing week and month name and length information.
 // Also takes user input to specify which month/year it should output.
-day*** console_calender::Create_Month(int Month, int Year, int** CalenderInput, int* MonthLengthInput)
+int** console_calender::Create_Month(int Month, int Year, int* MonthLengthInput)
 {
-    day*** month_output = new day**[6];
+	int **Calender = new int*[6];
+	for (unsigned int i = 0; i < 7; i++)
+	{
+		Calender[i] = new int[7];
+	}
 
-    for (unsigned int i = 0; i < 7; i++)
-    {
-        month_output[i] = new day*[7];
-
-       for (unsigned int c = 0; c < 8; c++)
-       {
-           month_output[i][c] = new day;
-       }
-    }
-
-
-
-    ZeroCalender(CalenderInput);
+    ZeroCalender(Calender);
 
 
     // This block determines all the day length, first day and total day information.
@@ -127,7 +90,7 @@ day*** console_calender::Create_Month(int Month, int Year, int** CalenderInput, 
     {
         for (unsigned int c = 0; c < 7; c++)
         {
-            CalenderInput[r + SecondIndex][c + FirstOfMonthIndex] = Day;
+            Calender[r + SecondIndex][c + FirstOfMonthIndex] = Day;
             Day++;
 
             if (FirstOfMonthIndex + c >= 6)
@@ -154,41 +117,26 @@ day*** console_calender::Create_Month(int Month, int Year, int** CalenderInput, 
         }
     }
 
-    for (unsigned int i = 0; i < 6; i++)
-    {
-        for (unsigned int c = 0; c < 7; c++)
-        {
-            month_output[i][c]->day_number = CalenderInput[i][c];
-            month_output[i][c]->month_number = Month;
-            month_output[i][c]->year_number = Year;
-        }
-    }
-
-
-
-    return month_output;
-
+	return Calender;
 }
 
 
-day**** console_calender::Create_Year(int Year)
+int*** console_calender::Create_Year(int Year)
 {
-    day ****year_output = new day***[12];
+    int ***year_output = new int**[12];
 
     for (unsigned int i = 0; i < 12; i++)
     {
-        year_output[i] = this->Create_Month(i,Year,this->Calender,this->MonthLengths);
+        year_output[i] = this->Create_Month(i,Year,this->MonthLengths);
     }
 
     return year_output;
 }
 
 
-void console_calender::Print_Month(day*** month_calender_input)
+void console_calender::Print_Month(int*** year_calender_input, int month)
 {
-    // Prints month name
-    cout << " " << this->MonthNames[month_calender_input[0][0]->month_number] << "  " << month_calender_input[0][0]->year_number << endl;
-    cout << endl;
+	cout << "         " << this->MonthNames[month] << endl;
 
 
     // Prints day names (these never change)
@@ -204,18 +152,18 @@ void console_calender::Print_Month(day*** month_calender_input)
     {
         for (unsigned int c = 0; c < 7; c++)
         {
-            if (month_calender_input[i][c]->day_number == 0)
+            if (year_calender_input[month][i][c] == 0)
             {
                 cout << "   ";
             }
             else
             {
-                if (month_calender_input[i][c]->day_number < 10)
+                if (year_calender_input[month][i][c] < 10)
                 {
                     cout << " ";
                 }
 
-                cout << month_calender_input[i][c]->day_number << " ";
+                cout << year_calender_input[month][i][c] << " ";
             }
         }
 
@@ -223,20 +171,40 @@ void console_calender::Print_Month(day*** month_calender_input)
      }
 }
 
+void console_calender::Print_Year(int ***Year_Calender)
+{
+	for (unsigned int i = 0; i < 12; i++)
+	{
+		this->Print_Month(Year_Calender, i);
+	}
+}
+
 
 
 console_calender::console_calender()
 {
-
-
-    for (unsigned int i = 0; i < 7; i++)
-    {
-        Calender[i] = new int[7];
-    }
-
     // Initializes arrays to contain all necessary information using SetCalender function.
     // ALSO IMPORTANT. DO NOT DELETE.
-    SetCalender(DayNames, MonthNames, MonthLengths);
+	DayNames[0] = " S";
+	DayNames[1] = " M";
+	DayNames[2] = "Tu";
+	DayNames[3] = " W";
+	DayNames[4] = "Th";
+	DayNames[5] = " F";
+	DayNames[6] = "Sa";
+
+	MonthNames[0] = "January"; MonthLengths[0] = 31;
+	MonthNames[1] = "February"; MonthLengths[1] = 28;
+	MonthNames[2] = "March"; MonthLengths[2] = 31;
+	MonthNames[3] = "April"; MonthLengths[3] = 30;
+	MonthNames[4] = "May"; MonthLengths[4] = 31;
+	MonthNames[5] = "June"; MonthLengths[5] = 30;
+	MonthNames[6] = "July"; MonthLengths[6] = 31;
+	MonthNames[7] = "August"; MonthLengths[7] = 31;
+	MonthNames[8] = "September"; MonthLengths[8] = 30;
+	MonthNames[9] = "October"; MonthLengths[9] = 31;
+	MonthNames[10] = "November"; MonthLengths[10] = 30;
+	MonthNames[11] = "December"; MonthLengths[11] = 31;
 }
 
 
