@@ -1,5 +1,12 @@
 #include "console_calender.h"
 
+
+  //**********************************************************************//
+ //					console_calender Class							     //
+//**********************************************************************//
+
+
+
 // Function that returns true if the input is a leap year.
 bool console_calender::CheckForLeap(int Year)
 {
@@ -136,12 +143,10 @@ int*** console_calender::Create_Year(int Year)
 
 void console_calender::Print_Month(int*** year_calender_input, int month)
 {
+	// Prints month + day names
 	cout << "         " << this->MonthNames[month] << endl;
-
-
-    // Prints day names (these never change)
     for (unsigned int i = 0; i < 7; i++)
-    {
+	{
         cout << this->DayNames[i] << " ";
     }
         cout << endl;
@@ -183,8 +188,8 @@ void console_calender::Print_Year(int ***Year_Calender)
 
 console_calender::console_calender()
 {
-    // Initializes arrays to contain all necessary information using SetCalender function.
-    // ALSO IMPORTANT. DO NOT DELETE.
+    // Initializes arrays to contain all necessary information
+    // IMPORTANT. DO NOT MODIFY.
 	DayNames[0] = " S";
 	DayNames[1] = " M";
 	DayNames[2] = "Tu";

@@ -1,11 +1,8 @@
-#include <iostream>
-#include <ctime>
-#include <string>
-#include <fstream>
-#include <vector>
-#include <console_calender.h>
+#include <console_planner.h>
 
-using namespace std;
+  //**********************************************************************//
+ //					Time Functions 									     //
+//**********************************************************************//
 
 
 struct tm* getCurrentTime() {
@@ -27,22 +24,9 @@ void printTime(struct tm *inputTime)
 }
 
 
-/***************************************/
-
-
-class Note
-{
-public:
-
-	string note;
-	struct tm *noteInitTime;
-
-	Note();
-	string getUserNote();
-	void printNote();
-
-private:
-};
+  //**********************************************************************//
+ //					Note Class									         //
+//**********************************************************************//
 
 
 Note::Note()
@@ -77,44 +61,9 @@ void Note::printNote(){
 
 
 
-
-
-
-
-
-
-struct day_node
-{
-	day_node* next = NULL;
-	day_node* previous = NULL;
-	struct tm *dayInitTime = getCurrentTime();
-	vector<Note> noteList;
-};
-
-class LLCalender
-{
-public:
-	int number_of_nodes = 0;
-	day_node* LLHandle = NULL; // start of list
-	day_node* last_node = NULL; // end of list
-
-	int removeNode(unsigned int node_position);	
-	int addNode (unsigned int node_position);
-	int appendToday();
-
-	void createNote_InDayNode(unsigned int nodePos);
-	Note* getNote_FromDayNode(unsigned int nodePos, unsigned int noteNum);
-	day_node* getDayNode(unsigned int nodePos);
-	void printDayNode(unsigned int nodePos);
-	void printList();
-
-private:
-
-
-
-
-
-};
+  //**********************************************************************//
+ //					LLCalender Class									 //
+//**********************************************************************//
 
 
 // Node position starts at 0 for the handle. Function will
@@ -233,6 +182,7 @@ int LLCalender::appendToday()
 	{
 		this->LLHandle = today;
 		this->last_node = today;
+		this->number_of_nodes++;
 		return 0;
 	}
 
@@ -246,15 +196,12 @@ int LLCalender::appendToday()
 // Prints list. Add contents you want printed + format later.
 void LLCalender::printList()
 {
-	day_node *temp_node = this->LLHandle;
-
-	while (temp_node->next != NULL)
+	for (unsigned int i = 0; i < this->number_of_nodes; i++)
 	{
-		cout << temp_node << endl;
-		temp_node = temp_node->next;
+		this->printDayNode(i);
 	}
 
-	cout << temp_node << endl;
+	
 }
 
 // Returns pointer to day_node at position nodePos in list. Returns NULL if error.
@@ -326,31 +273,8 @@ void LLCalender::printDayNode(unsigned int nodePos)
 	}
 }
 
-// END OF LINKED LIST CODE
 
 
 
-int main(int argc, char *argv[])
-{
-	
-	LLCalender *LLHandle = new LLCalender();
-	
 
-
-	console_calender *calender = new console_calender();
-	int ***year_2016 = calender->Create_Year(2016);
-	calender->Print_Year(year_2016);
-	
-	
-
-	
-
-
-
-	
-
-
-	
-	return 0;
-}
 

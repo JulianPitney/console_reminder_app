@@ -12,6 +12,7 @@ using namespace std;
 class console_calender
 {
 public:
+
     console_calender();
     bool CheckForLeap(int Year);
     void ZeroCalender(int **CalenderInput);
@@ -25,6 +26,7 @@ public:
     int *MonthLengths = new int[12];
     string *MonthNames = new string[12];
     string *DayNames = new string[7];
+
 };
 
 #endif // CONSOLE_CALENDER_H
