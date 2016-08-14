@@ -27,10 +27,10 @@ public:
 	Note();
 	string getUserNote();
 	void printNote();
-
-private:
 	string note;
 	struct tm *noteInitTime;
+
+private:
 };
 
 
