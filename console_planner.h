@@ -24,15 +24,13 @@ void printTime(struct tm *inputTime);
 class Note
 {
 public:
-
-	string note;
-	struct tm *noteInitTime;
-
 	Note();
 	string getUserNote();
 	void printNote();
 
 private:
+	string note;
+	struct tm *noteInitTime;
 };
 
 

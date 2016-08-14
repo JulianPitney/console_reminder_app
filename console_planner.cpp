@@ -173,6 +173,7 @@ int LLCalender::removeNode(unsigned int node_position)
 	
 }
 
+
 // Creates a node for current day and appends it to list
 int LLCalender::appendToday()
 {
@@ -207,14 +208,9 @@ void LLCalender::printList()
 // Returns pointer to day_node at position nodePos in list. Returns NULL if error.
 day_node* LLCalender::getDayNode(unsigned int nodePos)
 {
-	if (nodePos > this->number_of_nodes || nodePos < 0)
+	if (nodePos >= this->number_of_nodes || nodePos < 0)
 	{
 		cout << "Error: getDayNode() tried to access node at invalid position in list ( <0 or past end of list)\n";
-		return NULL;
-	}
-	else if (this->LLHandle == NULL)
-	{
-		cout << "Error: getDayNode() tried to access empty list \n";
 		return NULL;
 	}
 
