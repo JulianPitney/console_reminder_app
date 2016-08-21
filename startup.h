@@ -1,4 +1,10 @@
 #include<console_planner.h>
+#include <fstream>
+
+using namespace std;
 
 
-bool startup_proc(LLCalender* input_calender);
+
+
+bool checkListUpToDate(LLCalender* input_calender);
+bool loadList(char *loadFilePath);

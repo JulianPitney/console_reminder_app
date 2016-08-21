@@ -3,7 +3,7 @@
 
 // Scans LLCalender to determine whether the current day is later than the day the last node was added to the list.
 // If it is, it adds a node for today to the list and returns true, otherwise it does nothing and retrns false.
-bool startup_proc(LLCalender* input_calender)
+bool checkListUpToDate(LLCalender* input_calender)
 {
 	if (input_calender == NULL) // Case: Received NULL ptr argument
 	{
@@ -37,4 +37,27 @@ bool startup_proc(LLCalender* input_calender)
 
 
 
+}
+
+
+
+LLCalender* loadList(char *loadFilePath)
+{
+	ifstream loadFile;
+	loadFile.open(loadFilePath, std::ifstream::out);
+
+	// Unpack size of list
+	string sizeStr;
+	getline(loadFile, sizeStr);
+	int listSize = stoi(sizeStr);
+
+	LLCalender *outputList = new LLCalender();
+
+	for (int i = 0; i < listSize; i++)
+	{
+		outputList->addNode(i);
+	}
+	
+
+	return outputList;
 }

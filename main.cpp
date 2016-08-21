@@ -3,34 +3,26 @@
 #include <startup.h>
 #include <shutdown.h>
 
+const string loadFilePath = ""; // Set this to path of load file
+const string saveFilePatrh = ""; // Set this to path where list should be saved
+
+
 int main(int argc, char *argv[])
 {
 	LLCalender *listHandle = new LLCalender();
-	startup_proc(listHandle);
-	listHandle->addNode(1);
-	listHandle->addNode(1);
-	listHandle->addNode(1);
-	listHandle->addNode(1);
-	listHandle->addNode(1);
-	listHandle->addNode(1);
 
 
-	listHandle->printList();
-	saveInstance(listHandle);
-	
-	listHandle->createNote_InDayNode(-11);
+	checkListUpToDate(listHandle);
+	listHandle->addNode(1);
+
 	listHandle->createNote_InDayNode(0);
 	listHandle->createNote_InDayNode(0);
-	listHandle->createNote_InDayNode(2);
-	listHandle->createNote_InDayNode(2);
-	listHandle->createNote_InDayNode(3);
-	listHandle->createNote_InDayNode(5);
-	listHandle->createNote_InDayNode(5);
-	listHandle->createNote_InDayNode(5);
-	listHandle->createNote_InDayNode(5);
-	listHandle->createNote_InDayNode(8);
+	listHandle->createNote_InDayNode(0);
 
+	saveInstance(listHandle, "reminder_save_file.txt");
 	
-	saveInstance(listHandle);
+	loadList("C:\\Users\\ZeroLife\\Documents\\Visual Studio 2015\\Projects\\console_reminder\\console_reminder\\reminder_save_file.txt");
+	
+
 
 }
