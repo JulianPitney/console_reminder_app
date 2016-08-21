@@ -1,7 +1,7 @@
-#include <console_calender.h>
-#include <console_planner.h>
-#include <startup.h>
-#include <shutdown.h>
+#include </home/julian/Source/Day_Planner/console_calender.h>
+#include </home/julian/Source/Day_Planner/console_planner.h>
+#include </home/julian/Source/Day_Planner/startup.h>
+#include </home/julian/Source/Day_Planner/shutdown.h>
 
 int main(int argc, char *argv[])
 {

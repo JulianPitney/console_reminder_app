@@ -1,4 +1,4 @@
-#include <startup.h>
+#include </home/julian/Source/Day_Planner/startup.h>
 
 
 // Scans LLCalender to determine whether the current day is later than the day the last node was added to the list.

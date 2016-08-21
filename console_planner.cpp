@@ -1,4 +1,4 @@
-#include <console_planner.h>
+#include </home/julian/Source/Day_Planner/console_planner.h>
 
   //**********************************************************************//
  //					Time Functions 									     //
@@ -9,7 +9,7 @@ struct tm* getCurrentTime() {
 
 	time_t t = time(0);
 	struct tm *now = new struct tm;
-	localtime_s(now, &t);
+	now = localtime(&t);
 	return now;
 }
 
