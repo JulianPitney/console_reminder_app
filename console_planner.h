@@ -25,6 +25,7 @@ class Note
 {
 public:
 	Note();
+	Note(string input_note);
 	string getUserNote();
 	void printNote();
 	string note;

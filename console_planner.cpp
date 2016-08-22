@@ -35,6 +35,11 @@ Note::Note()
 	noteInitTime = getCurrentTime();
 }
 
+Note::Note(string input_note)
+{
+	note = input_note;
+}
+
 string Note::getUserNote()
 {
 	string note;
@@ -91,6 +96,7 @@ int LLCalender::addNode (unsigned int node_position)
 		this->LLHandle->previous = new_node;
 		this->LLHandle = new_node;
 		this->number_of_nodes++;
+
 		return 0;
 	}
 	else if (node_position == this->number_of_nodes) // Case: Appending to end of list
