@@ -12,16 +12,20 @@ int main(int argc, char *argv[])
 	LLCalender *listHandle = new LLCalender();
 
 
-	checkListUpToDate(listHandle);
 	listHandle->addNode(0);
+	listHandle->addNode(1);
 	listHandle->addNode(2);
 	listHandle->addNode(3);
 	listHandle->addNode(4);
-	listHandle->addNode(5);
+
+	listHandle->createNote_InDayNode(0);
+	listHandle->createNote_InDayNode(0);
+	listHandle->createNote_InDayNode(1);
+	listHandle->createNote_InDayNode(1);
+	listHandle->createNote_InDayNode(3);
+	listHandle->createNote_InDayNode(5);
 
 
-
-	saveInstance(listHandle, "reminder_save_file.txt");
 	
 	
 
