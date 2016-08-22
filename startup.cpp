@@ -52,10 +52,81 @@ LLCalender* loadList(char *loadFilePath)
 	int listSize = stoi(sizeStr);
 
 	LLCalender *outputList = new LLCalender();
+	day_node *temp_node = NULL;
+	string time_unprocessed = "";
+	string time_field = "";
 
 	for (int i = 0; i < listSize; i++)
 	{
 		outputList->addNode(i);
+		temp_node = outputList->getDayNode(i);
+		int current_structTm_field = 0;
+		getline(loadFile, time_unprocessed);
+
+		for (unsigned int i = 0; i < time_unprocessed.size(); i++)
+		{
+			if (time_unprocessed.at(i) == ';')
+			{
+				switch (current_structTm_field)
+				{
+				case(0):
+					temp_node->dayInitTime->tm_hour = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(1):
+					temp_node->dayInitTime->tm_isdst = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(2):
+					temp_node->dayInitTime->tm_mday = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(3):
+					temp_node->dayInitTime->tm_min = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(4):
+					temp_node->dayInitTime->tm_mon = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(5):
+					temp_node->dayInitTime->tm_sec = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(6):
+					temp_node->dayInitTime->tm_wday = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(7):
+					temp_node->dayInitTime->tm_yday = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				case(8):
+					temp_node->dayInitTime->tm_year = stoi(time_field);
+					current_structTm_field++;
+					time_field = "";
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				time_field += time_unprocessed.at(i);
+			}
+
+			
+		}
+
+
 	}
 	
 

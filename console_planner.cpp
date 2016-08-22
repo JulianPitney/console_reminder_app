@@ -85,6 +85,14 @@ int LLCalender::addNode (unsigned int node_position)
 		this->number_of_nodes++;
 		return 0;
 	}
+	else if (node_position == 0 && this->LLHandle != NULL) // Case: Adding node to start of non empty list
+	{
+		new_node->next = this->LLHandle;
+		this->LLHandle->previous = new_node;
+		this->LLHandle = new_node;
+		this->number_of_nodes++;
+		return 0;
+	}
 	else if (node_position == this->number_of_nodes) // Case: Appending to end of list
 	{
 		this->last_node->next = new_node;

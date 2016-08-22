@@ -7,4 +7,4 @@ using namespace std;
 
 
 bool checkListUpToDate(LLCalender* input_calender);
-bool loadList(char *loadFilePath);
+LLCalender* loadList(char *loadFilePath);
