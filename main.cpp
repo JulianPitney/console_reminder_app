@@ -1,4 +1,3 @@
-#include <console_calender.h>
 #include <console_planner.h>
 #include <shutdown.h>
 #include <startup.h>
@@ -21,6 +20,7 @@ int main(int argc, char *argv[])
 		cout << "[-help] for help \n";
 		return 0;
 	}
+	
 	string argument = argv[1];
 
 	if (argument == "-help")
@@ -78,6 +78,12 @@ int main(int argc, char *argv[])
 		{
 			cout << "Tried to print more days than there are in the list.\n\n";
 		}
+	}
+	else
+	{
+		cout << "Usage: note [-action]\n";
+		cout << "[-help] for help \n";
+		return 0;
 	}
 	
 
