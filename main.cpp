@@ -1,18 +1,26 @@
-#include <console_planner.h>
-#include <shutdown.h>
-#include <startup.h>
+#include <C:\\Users\\100489210\\Desktop\\console_reminder\\console_reminder_app\\console_planner.h>
+#include <C:\\Users\\100489210\\Desktop\\console_reminder\\console_reminder_app\\shutdown.h>
+#include <C:\\Users\\100489210\\Desktop\\console_reminder\\console_reminder_app\\startup.h>
 #include <fstream>
 
 using namespace std;
 
-const string loadFilePath = "C:\\Users\\ZeroLife\\Documents\\Visual Studio 2015\\Projects\\console_reminder\\console_reminder\\reminder_save_file.txt"; // Set this to path of load file
-const string saveFilePatrh = ""; // Set this to path where list should be saved
+
 
 
 int main(int argc, char *argv[])
 {
-	LLCalender *listHandle = loadInstance("C:\\Users\\ZeroLife\\Documents\\Visual Studio 2015\\Projects\\console_reminder\\console_reminder\\reminder_save_file.txt");
-	checkListUpToDate(listHandle);
+	LLCalender *listHandle = loadInstance("reminder_save_file.txt");
+	if (listHandle == NULL)
+	{
+		cout << "Exiting program...\n";
+		return 0;
+	}
+	else
+	{
+		checkListUpToDate(listHandle);
+	}
+	
 
 	if (argc < 2)
 	{
