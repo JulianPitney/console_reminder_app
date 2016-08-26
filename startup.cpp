@@ -1,4 +1,4 @@
-#include <startup.h>
+#include <C:\\Users\\100489210\\Desktop\\console_reminder\\console_reminder_app\\startup.h>
 
 
 struct tm* parseTimeStructStr(string timeStructStr)
@@ -40,6 +40,18 @@ LLCalender* loadInstance(char *loadFilePath)
 {
 	ifstream input(loadFilePath);
 
+	if (!input.is_open()) // Unable to open save file. This will assume the save file doesn't exist and create one.
+	{
+		LLCalender *brandnewList = new LLCalender();
+		brandnewList->appendToday();
+		saveInstance(brandnewList);
+		return brandnewList;
+	}
+	else if (input.peek() == EOF) // Just incase the file somehow ends up empty :S
+	{
+		cout << "Error: Tried to load empty file \n";
+		return NULL;
+	}
 
 	LLCalender *outputList = new LLCalender();
 

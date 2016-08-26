@@ -1,9 +1,9 @@
-#include <shutdown.h>
+#include <C:\\Users\\100489210\\Desktop\\console_reminder\\console_reminder_app\\shutdown.h>
 
 
 bool saveInstance(LLCalender *inputList)
 {
-	ofstream output("C:\\Users\\ZeroLife\\Documents\\Visual Studio 2015\\Projects\\console_reminder\\console_reminder\\reminder_save_file.txt");
+	ofstream output("reminder_save_file.txt");
 	output << inputList->number_of_nodes << endl; // Save number of nodes
 
 	for (int i = 0; i < inputList->number_of_nodes; i++)
@@ -26,5 +26,6 @@ bool saveInstance(LLCalender *inputList)
 		}
 	}
 
-	return false;
+	output.close();
+	return true;
 }
