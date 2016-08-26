@@ -144,68 +144,6 @@ int LLCalender::addNode (unsigned int node_position)
 	}
 }
 
-int LLCalender::removeNode(unsigned int node_position)
-{
-	if (node_position > this->number_of_nodes || node_position < 0)
-	{
-		cout << "Error: removeNode() tried to add node to invalid position in list ( <0 or >2 past end of list)\n";
-		return -1;
-	}
-
-	if (this->LLHandle == NULL && this->number_of_nodes == 0) // Case1: List already empty
-	{
-		cout << "Error: Tried to remove node from empty linked list\n";
-	}
-	else if (this->LLHandle->next == NULL && node_position == 0) // Case2: Removing only node in list
-	{
-		delete this->LLHandle;
-		this->LLHandle = NULL;
-		this->last_node = NULL;
-		this->number_of_nodes--;
-		cout << "Removed node " << node_position << " from list\n";
-		return 0;
-	}
-	else // Case3: Removing node with >2 elements
-	{
-		day_node *temp_node = this->LLHandle;
-
-		for (unsigned int i = 0; i < node_position; i++)
-		{
-			temp_node = temp_node->next;
-		}
-
-
-		if (this->number_of_nodes == node_position + 1) // Case3a: Removing end of list 
-		{
-			temp_node->previous->next = NULL;
-			this->last_node = temp_node->previous;
-			delete temp_node;
-			this->number_of_nodes--;
-			cout << "Removed node " << node_position << " from list\n";
-			return 0;
-		}
-		else if (node_position == 0) // Case3b: Removing start of list
-		{
-			temp_node->next->previous = NULL;
-			this->LLHandle = temp_node->next;
-			delete temp_node;
-			this->number_of_nodes--;
-			cout << "Removed node " << node_position << " from list\n";
-			return 0;
-		}
-		else // Case3c: Removing somewhere between start and end of list
-		{
-			temp_node->previous->next = temp_node->next;
-			temp_node->next->previous = temp_node->previous;
-			delete temp_node;
-			this->number_of_nodes--;
-			cout << "Removed node " << node_position << " from list\n";
-			return 0;
-		}
-	}
-	
-}
-
 
 // Creates a node for current day and appends it to list
 int LLCalender::appendToday()
@@ -227,16 +165,6 @@ int LLCalender::appendToday()
 	return 0;
 }
 
-// Prints list. Add contents you want printed + format later.
-void LLCalender::printList()
-{
-	for (unsigned int i = 0; i < this->number_of_nodes; i++)
-	{
-		this->printDayNode(i);
-	}
-
-	
-}
 
 // Returns pointer to day_node at position nodePos in list. Returns NULL if error.
 day_node* LLCalender::getDayNode(unsigned int nodePos)
@@ -269,27 +197,6 @@ void LLCalender::createNote_InDayNode(unsigned int nodePos)
 		cout << "Error: createNote_InDayNote() tried to create note inside NULL day_node ptr\n";
 	}
 	
-}
-
-// Returns Note object from specified day_node in list. Returns NULL on failure.
-Note* LLCalender::getNote_FromDayNode(unsigned int nodePos, unsigned int noteIndex)
-{
-	if (noteIndex < 0 || noteIndex >= this->number_of_nodes)
-	{
-		cout << "Error: getNote_FromDayNode() tried to access note outside bounds of vector\n";
-		return NULL;
-	}
-
-	day_node *temp = this->getDayNode(nodePos);
-	if (temp == NULL)
-	{
-		cout << "Error: getNote_FromDayNode() detected NULL pointer returned from getDayNode()\n";
-		return NULL;
-	}
-	else
-	{
-		return &temp->noteList.at(noteIndex);
-	}
 }
 
 void LLCalender::printDayNode(unsigned int nodePos)
