@@ -63,6 +63,14 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		if (number.size() > 6)
+		{
+			cout << "\nThat's way too many days. Calm down. \n";
+			cout << "Usage: note [-action]\n";
+			cout << "[-help] for help \n";
+			return 0;
+		}
+
 		int actual_number = stoi(number);
 
 		if (listHandle->number_of_nodes >= actual_number)
