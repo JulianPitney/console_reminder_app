@@ -50,17 +50,36 @@ string Note::getUserNote()
 }
 
 // Print time contained in supplied tm struct
+// This is what gets called when we print using the UI
 void Note::printNote(){
+	cout << "_________________________________________ \n";
+	cout << "***************************************** \n";
+
+	cout << "		" << (this->noteInitTime->tm_year + 1900) << '-'
+		<< (this->noteInitTime->tm_mon + 1) << '-'
+		<< (this->noteInitTime->tm_mday) << endl;
+	cout << "		" << (this->noteInitTime->tm_hour) << ':'
+		<< (this->noteInitTime->tm_min) << ':'
+		<< (this->noteInitTime->tm_sec) << "\n\n";
+
+	for (int i = 0; i < note.size(); i++)
+	{
+		if (i % 38 == 0 && i != 0)
+		{
+			cout << "\n ";
+		}
+		else if (i == 0)
+		{
+			cout << " ";
+		}
+
+		cout << note.at(i);
+	}
+
+	cout << endl;
 	
-	cout << (noteInitTime->tm_year + 1900) << '-'
-		 << (noteInitTime->tm_mon + 1) << '-'
-		 << (noteInitTime->tm_mday) << endl;
-	cout << (noteInitTime->tm_hour) << ':'
-		 << (noteInitTime->tm_min) << ':'
-		 << (noteInitTime->tm_sec) << "\n\n";
-
-	cout << note << endl;
-
+	
+	
 }
 
 
@@ -277,9 +296,12 @@ void LLCalender::printDayNode(unsigned int nodePos)
 {
 	day_node *node_to_print = this->getDayNode(nodePos);
 
-	for (unsigned int i = 0; i < node_to_print->noteList.size(); i++)
+	if (node_to_print != NULL)
 	{
-		node_to_print->noteList.at(i).printNote();
+		for (unsigned int i = 0; i < node_to_print->noteList.size(); i++)
+		{
+			node_to_print->noteList.at(i).printNote();
+		}
 	}
 }
 

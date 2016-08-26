@@ -27,23 +27,18 @@ int main(int argc, char *argv[])
 	{
 		cout << "\n	Reminder program. Allows notes to be taken with time and date information saved \n	internally. Notes  from " <<
 			"any arbritrary day can be requested and printed. \n\n" <<
-			"	note [-n] [-t] [-l] [-x] \n\n" <<
-			" -n		Take reminder for current day. \n" <<
-			" -t		Prints info from current day. \n" <<
+			"	note [-n] [-x] \n\n" <<
+			" -r		Take reminder for current day. \n" <<
 			" -x -n		Prints info from last n days. \n\n";
 			
 		return 0;
 	}
-	else if (argument == "-n")
+	else if (argument == "-r")
 	{
 		listHandle->createNote_InDayNode(listHandle->number_of_nodes - 1);
 		cout << "\nNote has been added\n";
 		printTime(getCurrentTime());
 		saveInstance(listHandle);
-	}
-	else if (argument == "-t")
-	{
-		listHandle->printDayNode(listHandle->number_of_nodes - 1);
 	}
 	else if (argument == "-x" && argv[2][0] == '-')
 	{
@@ -60,7 +55,10 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
-				cout << temp.at(i) << " is not a number.\n\n";
+				cout << endl;
+				cout << temp.at(i) << " is not a number.\n";
+				cout << "Usage: note [-action]\n";
+				cout << "[-help] for help \n";
 				return 0;
 			}
 		}
@@ -72,6 +70,12 @@ int main(int argc, char *argv[])
 			for (int i = listHandle->number_of_nodes - 1; i >= listHandle->number_of_nodes - actual_number; i--)
 			{
 				listHandle->printDayNode(i);
+
+				if (i == listHandle->number_of_nodes - actual_number)
+				{
+					cout << "_________________________________________ \n";
+					cout << "***************************************** \n";
+				}
 			}
 		}
 		else
